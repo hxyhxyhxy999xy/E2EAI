@@ -1,0 +1,4 @@
+model:
+  num_factors: 8
+synthetic:
+  num_factors: 8

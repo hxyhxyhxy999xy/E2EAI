@@ -1,0 +1,57 @@
+# Fixed-64 annual walk-forward baseline.  Fold bounds are supplied by
+# scripts/run_fixed64_walk_forward.py; this file is the frozen shared protocol.
+base_config: daily_core.yaml
+data:
+  path: /cloud/E2EAI/data/daily_strategy_fixed64_corr08_panel_2018_2026
+  return_path: /cloud/E2EAI/data/daily_strategy_fixed64_corr08_panel_2018_2026/forward_returns.npy
+  execution_return_path: /cloud/E2EAI/data/daily_strategy_fixed64_corr08_panel_2018_2026/execution_1d_return.npy
+  benchmark_path: /cloud/E2EAI/data/daily_strategy_fixed64_corr08_panel_2018_2026/csi500_execution_1d_return.npy
+  factor_selection_manifest_path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08/factor_selection_manifest.json
+  factor_directions_path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08/factor_directions.json
+  apply_factor_direction: false
+  panel_return_horizons: []
+  label_exit_offsets: [2]
+  label_definition: paper_formula
+  purge_label_overlap: true
+  daily_validation_only: false
+model:
+  horizons: [2]
+  execution_horizon: 2
+  strategy_head: simple_mlp
+  context:
+    hidden_dim: 64
+    dropout: 0.0
+  portfolio:
+    allocation_mode: long_only_softmax
+    min_selected_stocks: 1
+    topk_ratio: 0.20
+ablation:
+  use_factor_selector: false
+  use_industry_gat: false
+  use_universe_gat: false
+  use_direction_buffer: false
+  use_directional_approximation: false
+loss:
+  lambda_score: 1.0
+  lambda_portfolio: 70.2102429073
+  lambda_s: 0.0
+  lambda_f: 0.0
+  lambda_e: 0.0
+global_optimizer:
+  name: AdamW
+  lr: 0.001
+  weight_decay: 0.0001
+training:
+  batch_dates: 8
+  epochs: 100
+  gradient_clip_norm: 5.0
+  early_stopping_patience: 20
+  validation_target: validation_daily_sharpe_7_5bps
+  optimization_horizons: [2]
+  shuffle_dates: false
+  num_workers: 0
+evaluation:
+  cost_bps: 7.5
+  cost_scenarios_bps: [0.0, 7.5]
+logging:
+  output_dir: /cloud/E2EAI/output/fixed64_annual_walk_forward_baseline

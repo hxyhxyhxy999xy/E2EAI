@@ -1,0 +1,53 @@
+# Real daily-rebalanced strategy base. Experiments A-D inherit and override this file.
+base_config: paper_index_universe_no_cap.yaml
+experiment_line: daily_strategy
+data:
+  # Frozen from the actual purged 2018-01-02--2020-12-03 training decision
+  # dates.  The independent panel contains only train + validation dates.
+  path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08_panel
+  return_path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08_panel/forward_returns_3_5_10_15_20.npy
+  # Byte-for-byte migrated from the formerly verified legacy source before
+  # that leaky factor panel was removed.
+  execution_return_path: /cloud/E2EAI/data/execution_returns/execution_1d_return_verified_2018_2021.npy
+  execution_return_key: execution_1d_return
+  benchmark_path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08_panel/csi500_benchmark_paper_formula.npy
+  factor_selection_manifest_path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08/factor_selection_manifest.json
+  factor_directions_path: /cloud/E2EAI/data/daily_strategy_trainonly64_corr08/factor_directions.json
+  # MLP and all daily experiments consume raw processed factors.  The Factor
+  # Mean baseline overrides this to apply the external frozen directions.
+  apply_factor_direction: false
+  index_universe: csi500
+  membership_path: /cloud/E2EAI/data/index_universes/csi500_membership.npz
+  industry_npz_path: /cloud/E2EAI/data/index_universes/industry_level1_h5_trainonly64_2018_2021.npz
+  panel_return_horizons: [3, 5, 10, 15, 20]
+  label_exit_offsets: [2, 3, 5, 10, 15, 20]
+  # This audited panel stops at 2021; no 2022 test labels are permitted.
+  daily_validation_only: true
+model:
+  horizons: [2, 3, 5, 10, 15, 20]
+  execution_horizon: 2
+  strategy_head: e2eai
+  direction:
+    normalization: none
+    reset_each_epoch: true
+  portfolio:
+    allocation_mode: topk_equal_weight
+    topk_ratio: 0.20
+    topk: null
+    gamma_p: 0.0
+loss:
+  lambda_portfolio: 0.0
+  lambda_s: 0.0
+  lambda_f: 0.0
+  lambda_e: 0.0
+  lambda_score: 1.0
+training:
+  epochs: 100
+  early_stopping_patience: 20
+  validation_target: validation_daily_sharpe
+  optimization_horizons: [2]
+evaluation:
+  cost_bps: 5.0
+  cost_scenarios_bps: [0.0, 5.0, 10.0]
+logging:
+  output_dir: output/daily_strategy

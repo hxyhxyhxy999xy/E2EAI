@@ -1,0 +1,14 @@
+base_config: experiment_a.yaml
+experiment:
+  mode: evaluation_only
+  source_experiment: experiment_a
+model:
+  portfolio:
+    allocation_mode: capped_simplex
+    theta: 0.015
+    gamma_p: 0.0
+    gamma_p_mode: fixed
+    cap_mode_train: capped_simplex
+    cap_mode_eval: capped_simplex
+logging:
+  output_dir: output/daily_strategy/experiment_b

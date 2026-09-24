@@ -1,0 +1,9 @@
+base_config: experiment_c1.yaml
+experiment:
+  selection_candidates: [experiment_c1, experiment_c2]
+ablation:
+  use_industry_gat: true
+  use_universe_gat: false
+  use_direction_buffer: false
+logging:
+  output_dir: output/daily_strategy/experiment_d

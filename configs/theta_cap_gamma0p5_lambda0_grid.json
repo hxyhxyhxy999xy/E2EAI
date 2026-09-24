@@ -1,0 +1,50 @@
+{
+  "policy": {
+    "design": "theta_sensitivity_with_fixed_gamma_and_stability",
+    "gamma_p_mode": "inverse_n",
+    "gamma_p": 0.5,
+    "lambda_s": 0.0,
+    "selection_metric": "validation_ir",
+    "test_evaluation": "forbidden",
+    "turnover": "daily_target_weight_one_way"
+  },
+  "grid_size": 4,
+  "experiments": [
+    {
+      "theta": 0.02,
+      "gamma_p_mode": "inverse_n",
+      "gamma_p": 0.5,
+      "lambda_s": 0.0,
+      "family": "theta",
+      "value": 0.02,
+      "families": ["theta"]
+    },
+    {
+      "theta": 0.015,
+      "gamma_p_mode": "inverse_n",
+      "gamma_p": 0.5,
+      "lambda_s": 0.0,
+      "family": "theta",
+      "value": 0.015,
+      "families": ["theta"]
+    },
+    {
+      "theta": 0.01,
+      "gamma_p_mode": "inverse_n",
+      "gamma_p": 0.5,
+      "lambda_s": 0.0,
+      "family": "theta",
+      "value": 0.01,
+      "families": ["theta"]
+    },
+    {
+      "theta": 0.005,
+      "gamma_p_mode": "inverse_n",
+      "gamma_p": 0.5,
+      "lambda_s": 0.0,
+      "family": "theta",
+      "value": 0.005,
+      "families": ["theta"]
+    }
+  ]
+}

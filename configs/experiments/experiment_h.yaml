@@ -1,0 +1,9 @@
+# Reserved only; adds directional approximation.
+base_config: experiment_g.yaml
+ablation:
+  use_directional_approximation: true
+loss:
+  lambda_e: 0.10
+logging:
+  output_dir: output/daily_strategy/experiment_h
+

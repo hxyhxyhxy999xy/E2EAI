@@ -1,0 +1,7 @@
+# Reserved only; do not include in the first A-D run.
+base_config: experiment_d.yaml
+ablation:
+  use_universe_gat: true
+logging:
+  output_dir: output/daily_strategy/experiment_e
+

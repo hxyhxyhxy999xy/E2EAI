@@ -1,0 +1,7 @@
+# Reserved only; adds the factor-return objective.
+base_config: experiment_f.yaml
+loss:
+  lambda_f: 0.10
+logging:
+  output_dir: output/daily_strategy/experiment_g
+

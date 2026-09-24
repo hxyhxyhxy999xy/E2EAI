@@ -1,0 +1,29 @@
+# DISABLED UNTIL A SEPARATE PAPER-SAFE PANEL EXISTS.
+# The inherited legacy panel was intentionally removed because Top64 selection
+# and factor directions used full-sample 2018-2026 IC (look-ahead leakage).
+# It must never fall back to the train-only daily-strategy panel.
+# Paper-structure reproduction. Daily-strategy decisions must not be mixed here.
+base_config: paper_index_universe_no_cap.yaml
+experiment_line: paper_repro
+data:
+  index_universe: csi500
+  membership_path: /cloud/E2EAI/data/index_universes/csi500_membership.npz
+  benchmark_path: /cloud/E2EAI/data/index_universes/csi500_benchmark_paper_formula.npy
+model:
+  horizons: [3, 5, 10, 15, 20]
+  execution_horizon: null
+  strategy_head: e2eai
+  direction:
+    reset_each_epoch: false
+loss:
+  lambda_portfolio: 1.0
+ablation:
+  use_factor_selector: true
+  use_industry_gat: true
+  use_universe_gat: true
+  use_direction_buffer: true
+  use_directional_approximation: true
+training:
+  optimization_horizons: []
+logging:
+  output_dir: output/paper_repro

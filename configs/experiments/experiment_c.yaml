@@ -1,0 +1,2 @@
+# Backward-compatible alias. New diagnostics compare C1 and C2 explicitly.
+base_config: experiment_c1.yaml

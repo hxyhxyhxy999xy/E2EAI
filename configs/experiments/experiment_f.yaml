@@ -1,0 +1,11 @@
+# Reserved only; do not include in the first A-D run.
+base_config: experiment_e.yaml
+model:
+  direction:
+    normalization: none
+    reset_each_epoch: true
+ablation:
+  use_direction_buffer: true
+logging:
+  output_dir: output/daily_strategy/experiment_f
+

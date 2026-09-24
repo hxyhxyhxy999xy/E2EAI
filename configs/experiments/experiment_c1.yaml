@@ -1,0 +1,10 @@
+base_config: experiment_a.yaml
+model:
+  factor_selection:
+    pooling: mean_std
+    gate_mode_train: soft
+    gate_mode_eval: soft
+ablation:
+  use_factor_selector: true
+logging:
+  output_dir: output/daily_strategy/experiment_c1

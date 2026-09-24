@@ -1,0 +1,6 @@
+# Reserved only; adds the stability objective last.
+base_config: experiment_h.yaml
+loss:
+  lambda_s: 0.10
+logging:
+  output_dir: output/daily_strategy/experiment_i

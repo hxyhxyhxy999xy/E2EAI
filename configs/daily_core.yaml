@@ -1,0 +1,29 @@
+# Pure daily-rebalanced research core: signal at t, VWAP entry t+1,
+# VWAP exit/valuation t+2.  The corr08 factor-selection manifest is frozen;
+# this file only changes the model/data horizon to the audited execution label.
+base_config: daily_strategy.yaml
+data:
+  return_path: /cloud/E2EAI/data/execution_returns/execution_1d_return_verified_2018_2021.npy
+  execution_return_path: /cloud/E2EAI/data/execution_returns/execution_1d_return_verified_2018_2021.npy
+  benchmark_path: /cloud/E2EAI/data/benchmark/csi500_execution_1d_return.npy
+  panel_return_horizons: []
+  label_exit_offsets: [2]
+  train_start: '2018-01-02'
+  train_end: '2020-12-31'
+  validation_start: '2021-01-04'
+  validation_end: '2021-12-31'
+  test_start: null
+  test_end: null
+  daily_validation_only: true
+model:
+  horizons: [2]
+  execution_horizon: 2
+  strategy_head: e2eai
+training:
+  optimization_horizons: [2]
+  validation_target: validation_daily_sharpe_7_5bps
+evaluation:
+  cost_bps: 7.5
+  cost_scenarios_bps: [0.0, 5.0, 7.5, 10.0]
+logging:
+  output_dir: /cloud/E2EAI/output/daily_core_corr08

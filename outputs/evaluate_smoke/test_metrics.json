@@ -1,0 +1,23 @@
+{
+  "total_loss": -0.05239078775048256,
+  "portfolio_loss": 0.0001859927870100364,
+  "portfolio_return_loss": 0.0001859927870100364,
+  "upper_bound_loss": 0.0,
+  "stability_loss": -1.2203176021575928,
+  "factor_return_loss": -3.126829687971622e-05,
+  "attention_estimate_loss": 0.1688133180141449,
+  "mean_ic": -0.05805668979883194,
+  "mean_abs_ic": 0.2552706003189087,
+  "mean_icir": -0.3436991572380066,
+  "mean_factor_return": 4.038690093466357e-08,
+  "mean_portfolio_return": -0.0001859927870100364,
+  "selected_factor_count": 8.0,
+  "selected_stock_count": 14.666666984558105,
+  "max_weight": 0.08916812390089035,
+  "validation_return": -0.0001859927870100364,
+  "validation_ir": -0.3477889895439148,
+  "validation_sharpe": -5.520978927612305,
+  "validation_mdd": 0.0039463043212890625,
+  "validation_loss": -0.05239078775048256,
+  "validation_excess_return": -0.00011205203190911561
+}

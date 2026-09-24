@@ -1,0 +1,28 @@
+base_config: daily_core.yaml
+data:
+  apply_factor_direction: false
+model:
+  strategy_head: simple_mlp
+  context:
+    hidden_dim: 64
+  portfolio:
+    allocation_mode: topk_equal_weight
+    topk_ratio: 0.20
+ablation:
+  use_factor_selector: false
+  use_industry_gat: false
+  use_universe_gat: false
+  use_direction_buffer: false
+  use_directional_approximation: false
+loss:
+  lambda_portfolio: 0.0
+  lambda_score: 1.0
+  lambda_s: 0.0
+  lambda_f: 0.0
+  lambda_e: 0.0
+training:
+  epochs: 100
+  early_stopping_patience: 20
+  validation_target: validation_daily_sharpe_7_5bps
+logging:
+  output_dir: /cloud/E2EAI/output/daily_core_corr08/experiment_a
