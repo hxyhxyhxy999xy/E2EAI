@@ -1,0 +1,30 @@
+{
+  "fm_top20": {
+    "corner": "FM-Top20",
+    "status": "PASS",
+    "weight_axis_match": true,
+    "target_weight_max_abs_diff": 0.0,
+    "daily_axis_match": true,
+    "daily_max_abs_diff": {
+      "gross_return": 9.990923019453923e-17,
+      "one_way_turnover": 9.71445146547012e-17,
+      "cost_7p5bps": 9.996344030316351e-17,
+      "net_return_7p5bps": 9.974659986866641e-17
+    },
+    "tolerance": 1e-08
+  },
+  "mlp_softmax": {
+    "corner": "MLP-Softmax",
+    "status": "PASS",
+    "weight_axis_match": true,
+    "target_weight_max_abs_diff": 0.0,
+    "daily_axis_match": true,
+    "daily_max_abs_diff": {
+      "gross_return": 9.974659986866641e-17,
+      "one_way_turnover": 9.71445146547012e-17,
+      "cost_7p5bps": 9.99227827216953e-17,
+      "net_return_7p5bps": 9.974659986866641e-17
+    },
+    "tolerance": 1e-08
+  }
+}

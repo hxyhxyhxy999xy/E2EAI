@@ -1,0 +1,139 @@
+seed: 42
+device: cuda
+data:
+  path: /cloud/factor_synthesis/data/alphagat_64f_fixed_2018_2026_t1t2_vwap
+  format: alpha_panel
+  date_column: date
+  asset_column: asset_id
+  industry_column: industry_id
+  factor_columns: []
+  factor_prefix: factor_
+  return_prefix: forward_return_
+  benchmark_prefix: benchmark_return_
+  missing_factor_strategy: cross_sectional_median
+  train_ratio: 0.7
+  validation_ratio: 0.15
+  test_ratio: 0.15
+  train_start: '2018-01-02'
+  train_end: '2020-12-31'
+  validation_start: '2021-01-04'
+  validation_end: '2021-12-31'
+  test_start: '2022-01-04'
+  test_end: '2022-12-30'
+  universe_graph_mode: all_valid
+  unknown_industry_self_only: true
+  factor_groups: {}
+  alpha_key: alpha_tensor
+  return_key: forward_returns
+  benchmark_key: benchmark_returns
+  return_path: /cloud/E2EAI/data/alphagat_64f_2018_2026_multihorizon_paper_formula/forward_returns_3_5_10_15_20.npy
+  benchmark_path: /cloud/E2EAI/data/index_universes/csi500_benchmark_paper_formula.npy
+  panel_return_horizons:
+  - 3
+  - 5
+  - 10
+  - 15
+  - 20
+  label_definition: paper_formula
+  label_exit_offsets:
+  - 3
+  - 5
+  - 10
+  - 15
+  - 20
+  purge_label_overlap: true
+  eligibility_key: eligible_mask
+  factor_validity_key: factor_valid_mask
+  alpha_names_key: alpha_names
+  alpha_directions_key: alpha_directions
+  industry_ids_key: industry_ids
+  market_cap_key: free_float_market_cap
+  industry_npz_path: /cloud/E2EAI/data/index_universes/industry_level1_h5_2018_2026.npz
+  index_universe: csi500
+  membership_path: /cloud/E2EAI/data/index_universes/csi500_membership.npz
+  mmap_mode: r
+  max_assets_per_date: null
+  asset_selection: axis_order
+  single_return_policy: require_single_horizon
+model:
+  num_factors: 64
+  horizons:
+  - 3
+  - 5
+  - 10
+  - 15
+  - 20
+  factor_selection:
+    hidden_dim: 32
+    gamma_f: 0.02
+    pooling: mean
+    gate_mode: ste_hard
+    min_selected_factors: 1
+  context:
+    hidden_dim: 64
+    normalization: cross_sectional
+    dropout: 0.1
+    eps: 1.0e-06
+  gat:
+    heads: 1
+    dropout: 0.1
+    leaky_relu_slope: 0.2
+    add_self_loops: true
+  direction:
+    normalization: cross_factor_zscore
+    min_stocks: 3
+    eps: 1.0e-06
+    zero_direction: 1
+    zscore_approximation_input: false
+  portfolio:
+    allocation_mode: legacy_cap
+    gamma_p: 0.5
+    gamma_p_mode: inverse_n
+    theta: 0.01
+    min_selected_stocks: 1
+    cap_mode_train: capped_simplex
+    cap_mode_eval: capped_simplex
+    projection_iterations: 64
+  share_deep_factor_head: false
+loss:
+  lambda_s: 0.0
+  lambda_f: 0.1
+  lambda_e: 0.1
+  lambda_up: 1.0
+  eps: 1.0e-06
+local_optimizer:
+  lr: 0.05
+  n_iter: 10
+  differentiable: true
+global_optimizer:
+  name: AdamW
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: none
+training:
+  batch_dates: 8
+  epochs: 100
+  gradient_clip_norm: 5.0
+  early_stopping_patience: 20
+  validation_target: validation_ir
+  mixed_precision: false
+  shuffle_dates: false
+  num_workers: 0
+evaluation:
+  mode: fixed_model
+  backtest_mode: overlapping_label
+  annual_trading_days: 252
+  risk_free_rate: 0.0
+  holding_threshold: 1.0e-08
+logging:
+  output_dir: output/theta_cap_gamma0p5_lambda0/csi500/fold_0/theta_0p01
+  tensorboard: false
+  wandb: false
+  wandb_project: e2eai
+synthetic:
+  num_dates: 40
+  num_stocks: 40
+  num_factors: 16
+  num_industries: 8
+  active_probability: 0.9
+  signal_noise: 0.35

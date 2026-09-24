@@ -1,0 +1,44 @@
+{
+  "purge_label_overlap": true,
+  "label_definition": "paper_formula",
+  "label_exit_offsets": [
+    3,
+    5,
+    10,
+    15,
+    20
+  ],
+  "raw_counts": {
+    "train": 730,
+    "validation": 243,
+    "test": 242
+  },
+  "purged_counts": {
+    "train": 20,
+    "validation": 20
+  },
+  "max_exit_offset": 20,
+  "boundary_dates": {
+    "validation": "2021-01-04",
+    "test": "2022-01-04"
+  },
+  "used_counts": {
+    "train": 710,
+    "validation": 223,
+    "test": 242
+  },
+  "used_date_ranges": {
+    "train": [
+      "2018-01-02",
+      "2020-12-03"
+    ],
+    "validation": [
+      "2021-01-04",
+      "2021-12-03"
+    ],
+    "test": [
+      "2022-01-04",
+      "2022-12-30"
+    ]
+  }
+}

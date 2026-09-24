@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>CSI500 Fold 0 2018 起点实验报告</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title"><strong>CSI500 Fold 0 2018 起点实验报告</strong></h1>
+</div>
+<p>模型结构 数据输入 损失函数与收敛诊断</p>
+<h1 id="一-实验结论"><strong>一 实验结论</strong></h1>
+<p>本报告记录 CSI500 Fold 0 的 2018 起点复现实验。模型在 2018-01-02 至 2020-12-31 训练，在 2021 年验证，并在 2022-01-04 至 2022-12-30 进行样本外评估。训练最大轮数为 100，早停 patience 为 20，实际在第 46 轮停止。</p>
+<p>样本外结果显示，当前无仓位上限配置下的模型组合高度集中，单股最大权重达到 100%，模型收益和风险指标均弱于因子等权基准。该结果应被视为当前网络、数据接口和无上限组合分配配置的诊断结果，而不是已经满足 0.5% 单股权重限制的最终策略结果。</p>
+<ul>
+<li><p>模型的早停依据为 validation_loss，即四项损失加权后的验证集总损失。</p></li>
+<li><p>输入因子来自新的 64 因子 H5 面板，行业信息来自 H5 对齐后的一级行业面板。</p></li>
+<li><p>五个期限的标签均使用 VWAP[t+h+1] / VWAP[t+1] - 1，期限 h 为 3、5、10、15、20。</p></li>
+<li><p>因子等权基准为有效单因子横截面 softmax 组合的等权平均，不使用学习得到的因子注意力。</p></li>
+</ul>
+<h1 id="二-实验区间与运行设置"><strong>二 实验区间与运行设置</strong></h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>项目</strong></th>
+<th><strong>设置</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>股票池</td>
+<td>CSI500 历史成员；按交易日精确匹配，不使用未来成员回填</td>
+</tr>
+<tr class="even">
+<td>训练期</td>
+<td>2018-01-02 至 2020-12-31</td>
+</tr>
+<tr class="odd">
+<td>验证期</td>
+<td>2021-01-04 至 2021-12-31</td>
+</tr>
+<tr class="even">
+<td>样本外期</td>
+<td>2022-01-04 至 2022-12-30</td>
+</tr>
+<tr class="odd">
+<td>预测期限</td>
+<td>3、5、10、15、20 个交易日</td>
+</tr>
+<tr class="even">
+<td>最大 epoch</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td>实际停止</td>
+<td>第 46 轮，记录 epoch 0 至 46，共 47 轮</td>
+</tr>
+<tr class="even">
+<td>早停 patience</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>设备</td>
+<td>CUDA GPU</td>
+</tr>
+<tr class="even">
+<td>批次</td>
+<td>每批 8 个交易日</td>
+</tr>
+<tr class="odd">
+<td>随机种子</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+<h1 id="三-输入数据细节"><strong>三 输入数据细节</strong></h1>
+<table>
+<thead>
+<tr class="header">
+<th><strong>数据项</strong></th>
+<th><strong>来源与处理</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>因子面板</td>
+<td>/cloud/factor_synthesis/data/alphagat_64f_fixed_2018_2026_t1t2_vwap</td>
+</tr>
+<tr class="even">
+<td>因子数量</td>
+<td>64 个新 H5 选出因子；不是原始高频因子集合</td>
+</tr>
+<tr class="odd">
+<td>市场与成员数据</td>
+<td>/cloud/hdf5/historical/china_astock_2018.h5 对齐生成 CSI500 历史成员</td>
+</tr>
+<tr class="even">
+<td>行业数据</td>
+<td>/cloud/E2EAI/data/index_universes/industry_level1_h5_2018_2026.npz</td>
+</tr>
+<tr class="odd">
+<td>行业层级</td>
+<td>Citic 一级行业；与交易日和股票轴对齐</td>
+</tr>
+<tr class="even">
+<td>因子输入形状</td>
+<td>[B, N, 64]，B 为交易日批次，N 为当日有效股票数</td>
+</tr>
+<tr class="odd">
+<td>成员筛选</td>
+<td>历史成员精确日期匹配；不做未来日期回填</td>
+</tr>
+<tr class="even">
+<td>股票数截断</td>
+<td>当前 index 配置不做市场规模截断；max_assets_per_date=null</td>
+</tr>
+<tr class="odd">
+<td>样本外有效样本</td>
+<td>242 个交易日；末端因未来 h+1 标签不可用而减少</td>
+</tr>
+<tr class="even">
+<td>收益标签</td>
+<td>未来 h 日 = VWAP[t+h+1] / VWAP[t+1] - 1</td>
+</tr>
+<tr class="odd">
+<td>基准收益</td>
+<td>决策日指数权重调整 VWAP 收益代理；缺失标签重新归一化</td>
+</tr>
+</tbody>
+</table>
+<p>收益标签采用此前确认的 t+h+1 定义。因此 h=3、5、10、15、20 对应的退出位置分别是 t+4、t+6、t+11、t+16、t+21。样本外评价采用 overlapping label 模式，年化使用 252/h。</p>
+<h1 id="四-模型网络结构"><strong>四 模型网络结构</strong></h1>
+<p>模型输入为每个交易日的 64 因子横截面和两张关系图。主路径依次经过动态因子选择、股票上下文编码、行业 GAT 中性化、股票池 GAT 中性化、五个独立深度因子头和五个独立组合分配头。</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>模块</strong></th>
+<th><strong>输入</strong></th>
+<th><strong>网络层</strong></th>
+<th><strong>输出与关键设置</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>动态因子选择</td>
+<td>[B,N,64]</td>
+<td>横截面均值 → Linear 64→32 → LeakyReLU(0.2) → Linear 32→64 → Softmax</td>
+<td>[B,N,64]；gamma_f=0.02；训练 STE hard，测试 hard</td>
+</tr>
+<tr class="even">
+<td>上下文编码</td>
+<td>选中因子 [B,N,64]</td>
+<td>逐日期逐因子横截面标准化 → Linear 64→64 → LeakyReLU(0.2) → Dropout 0.10 → Linear 64→64</td>
+<td>stock_context [B,N,64]</td>
+</tr>
+<tr class="odd">
+<td>行业中性化</td>
+<td>上下文与行业图</td>
+<td>单头 GAT 64→64；注意力 dropout 0.10；self-loop；ELU；残差相减</td>
+<td>industry_neutral [B,N,64]</td>
+</tr>
+<tr class="even">
+<td>股票池中性化</td>
+<td>行业中性结果与股票池图</td>
+<td>结构同上，输入为 industry_neutral，不重新使用原始上下文</td>
+<td>universe_neutral [B,N,64]</td>
+</tr>
+<tr class="odd">
+<td>深度因子头</td>
+<td>3 个 64 维表示拼接</td>
+<td>5 个独立 Linear 192→1 → LeakyReLU(0.2)</td>
+<td>deep_factors [B,5,N]；不共享期限头</td>
+</tr>
+<tr class="even">
+<td>因子解释头</td>
+<td>选中因子 [B,N,64]</td>
+<td>5 个独立 Linear 64→64 → LeakyReLU(0.2) → 因子维 softmax</td>
+<td>factor attention 与 deep factor approximation</td>
+</tr>
+<tr class="odd">
+<td>组合分配头</td>
+<td>上下文 64 维 + signed deep factor 1 维</td>
+<td>5 个独立 Linear 65→1 → LeakyReLU(0.2) → 股票维 masked softmax</td>
+<td>portfolio_weights [B,5,N]</td>
+</tr>
+</tbody>
+</table>
+<p>当前组合分配模式为 long_only_softmax：权重非负、每个日期和期限的权重和为 1，gamma_p=0.001，至少保留 1 只股票。theta=0.10 仅是旧 capped-simplex 模式的兼容字段，本次 no-cap 运行不生效。</p>
+<p>需要审查的集中度事实：当前运行没有启用 0.5% 单股权重上限，因此模型样本外的 maximum_single_weight 为 1.0，平均有效持仓约为 14 至 23 只。</p>
+<h1 id="五-损失函数"><strong>五 损失函数</strong></h1>
+<p>当前 long_only_softmax 路径的总损失为：</p>
+<p><strong>L_total = L_portfolio + 0.10 L_stability + 0.10 L_factor + 0.10 L_approximation</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>损失项</strong></th>
+<th><strong>定义与作用</strong></th>
+<th><strong>权重</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>L_portfolio</td>
+<td>组合收益损失，等于 -mean(portfolio return)。缺失收益标签按有效权重重新归一化。</td>
+<td>1.00</td>
+</tr>
+<tr class="even">
+<td>L_stability</td>
+<td>方向加权 ICIR 的负值；通过横截面 IC 和时间序列 ICIR 约束深度因子方向稳定性。</td>
+<td>0.10</td>
+</tr>
+<tr class="odd">
+<td>L_factor</td>
+<td>局部横截面回归得到的 psi 与历史 deep direction 的方向收益损失，目标是最大化方向一致的因子收益。</td>
+<td>0.10</td>
+</tr>
+<tr class="even">
+<td>L_approximation</td>
+<td>deep_factors 与因子注意力方向近似 deep_factor_approx 的 masked MSE。</td>
+<td>0.10</td>
+</tr>
+<tr class="odd">
+<td>上限损失</td>
+<td>long_only_softmax 路径不加入 upper_bound_loss；不会在本次训练中惩罚单股权重超过 theta。</td>
+<td>不启用</td>
+</tr>
+</tbody>
+</table>
+<p>验证集早停监控的是上述 L_total 的 validation_loss，而不是单独的收益损失、ICIR 或因子近似损失。当前实验使用 AdamW，学习率 0.001，weight decay 0.0001，无学习率调度，梯度裁剪范数 5.0。</p>
+<h1 id="六-样本外结果"><strong>六 样本外结果</strong></h1>
+<p>下表中的换手率是每个期限单独计算的目标权重换手，不是带漂移、交易成本和实际成交路径的执行换手。</p>
+<h2 id="六点一-模型组合"><strong>六点一 模型组合</strong></h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>期限 h</strong></th>
+<th><strong>年化收益</strong></th>
+<th><strong>年化超额</strong></th>
+<th><strong>最大回撤</strong></th>
+<th><strong>单次换手</strong></th>
+<th><strong>平均持仓</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>-16.00%</td>
+<td>0.02%</td>
+<td>45.43%</td>
+<td>35.85%</td>
+<td>23.2</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>-16.59%</td>
+<td>-1.71%</td>
+<td>27.47%</td>
+<td>35.66%</td>
+<td>23.6</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>-29.43%</td>
+<td>-15.62%</td>
+<td>24.07%</td>
+<td>35.76%</td>
+<td>20.3</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>-26.18%</td>
+<td>-14.38%</td>
+<td>39.66%</td>
+<td>36.67%</td>
+<td>16.0</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>-20.82%</td>
+<td>-11.46%</td>
+<td>20.02%</td>
+<td>36.95%</td>
+<td>14.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="六点二-因子等权基准"><strong>六点二 因子等权基准</strong></h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>期限 h</strong></th>
+<th><strong>年化收益</strong></th>
+<th><strong>年化超额</strong></th>
+<th><strong>最大回撤</strong></th>
+<th><strong>单次换手</strong></th>
+<th><strong>有效持仓</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3</td>
+<td>-7.16%</td>
+<td>8.86%</td>
+<td>24.41%</td>
+<td>3.39%</td>
+<td>496.3</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>-6.93%</td>
+<td>7.95%</td>
+<td>21.99%</td>
+<td>3.39%</td>
+<td>496.3</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>-6.39%</td>
+<td>7.41%</td>
+<td>18.71%</td>
+<td>3.39%</td>
+<td>496.3</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>-4.48%</td>
+<td>7.32%</td>
+<td>18.37%</td>
+<td>3.39%</td>
+<td>496.3</td>
+</tr>
+<tr class="odd">
+<td>20</td>
+<td>-1.95%</td>
+<td>7.41%</td>
+<td>14.40%</td>
+<td>3.39%</td>
+<td>496.3</td>
+</tr>
+</tbody>
+</table>
+<p>因子等权基准的平均持仓约 496 只，最大单股权重约 2.11%，而模型组合由于没有仓位上限而呈现明显集中。该差异是解释模型与基准表现差异时必须保留的配置因素。</p>
+<h1 id="七-损失函数收敛曲线"><strong>七 损失函数收敛曲线</strong></h1>
+<p>下图为本次最终运行生成的训练目标曲线。训练在最大 100 轮之前因 validation_loss 连续 20 轮没有改善而早停。曲线显示总损失和验证损失仍存在明显波动，因此本次实验说明模型完成了既定早停流程，但不能将其表述为已经达到全局收敛。</p>
+<p><img src="D:\study\研究生\实习\中金\E2EAI\output\CSI500_Fold0_2018_render\media/media/image1.png" width="619" height="348" /></p>
+<p>图 1 本次 CSI500 Fold 0 训练目标与验证损失曲线</p>
+<h1 id="八-审查重点"><strong>八 审查重点</strong></h1>
+<ul>
+<li><p>确认评估是否应严格启用此前提出的 0.5% 单股权重上限；本次结果没有启用该约束。</p></li>
+<li><p>确认 no-cap long-only-softmax 是否属于论文目标配置，还是仅用于网络联通性和数据接口测试。</p></li>
+<li><p>重点检查 validation_loss 在后半程的波动、早停轮数与学习率之间的关系。</p></li>
+<li><p>区分模型表现与组合约束差异：因子等权基准高度分散，而当前模型组合高度集中。</p></li>
+<li><p>如需论文正式结果，应在确定仓位约束、交易成本和非重叠回测口径后重新运行。</p></li>
+</ul>
+</body>
+</html>

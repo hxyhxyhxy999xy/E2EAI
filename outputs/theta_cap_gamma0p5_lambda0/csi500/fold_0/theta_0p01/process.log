@@ -1,0 +1,22 @@
+epoch=0 train_loss=-0.001735 validation_loss=-0.007564 validation_return=0.007583 IR=0.3111 Sharpe=4.9392 MDD=0.9355 selected_factors=2.29 selected_stocks=484.69
+epoch=1 train_loss=-0.003373 validation_loss=-0.007339 validation_return=0.007439 IR=0.2878 Sharpe=4.5684 MDD=0.8425 selected_factors=6.95 selected_stocks=356.94
+epoch=2 train_loss=-0.005633 validation_loss=-0.007322 validation_return=0.007364 IR=0.2878 Sharpe=4.5694 MDD=0.8425 selected_factors=12.78 selected_stocks=113.70
+epoch=3 train_loss=-0.005908 validation_loss=-0.007324 validation_return=0.007356 IR=0.2871 Sharpe=4.5568 MDD=0.8351 selected_factors=13.33 selected_stocks=102.76
+epoch=4 train_loss=-0.005980 validation_loss=-0.007599 validation_return=0.007625 IR=0.2954 Sharpe=4.6897 MDD=0.8291 selected_factors=13.20 selected_stocks=102.35
+epoch=5 train_loss=-0.005954 validation_loss=-0.007439 validation_return=0.007457 IR=0.2867 Sharpe=4.5514 MDD=0.8397 selected_factors=14.24 selected_stocks=102.46
+epoch=6 train_loss=-0.005655 validation_loss=-0.007313 validation_return=0.007332 IR=0.2833 Sharpe=4.4970 MDD=0.8191 selected_factors=14.82 selected_stocks=101.67
+epoch=7 train_loss=-0.006096 validation_loss=-0.007354 validation_return=0.007367 IR=0.2859 Sharpe=4.5384 MDD=0.8272 selected_factors=16.22 selected_stocks=100.67
+epoch=8 train_loss=-0.006294 validation_loss=-0.007005 validation_return=0.007020 IR=0.2713 Sharpe=4.3069 MDD=0.8183 selected_factors=16.47 selected_stocks=100.85
+epoch=9 train_loss=-0.006142 validation_loss=-0.007439 validation_return=0.007454 IR=0.2879 Sharpe=4.5706 MDD=0.8143 selected_factors=16.37 selected_stocks=100.67
+epoch=10 train_loss=-0.006032 validation_loss=-0.007343 validation_return=0.007357 IR=0.2874 Sharpe=4.5629 MDD=0.8037 selected_factors=16.07 selected_stocks=100.94
+epoch=11 train_loss=-0.006310 validation_loss=-0.007022 validation_return=0.007035 IR=0.2774 Sharpe=4.4035 MDD=0.8133 selected_factors=16.56 selected_stocks=100.49
+epoch=12 train_loss=-0.006397 validation_loss=-0.007350 validation_return=0.007365 IR=0.2889 Sharpe=4.5868 MDD=0.8008 selected_factors=17.23 selected_stocks=100.43
+epoch=13 train_loss=-0.006472 validation_loss=-0.007281 validation_return=0.007301 IR=0.2840 Sharpe=4.5083 MDD=0.8265 selected_factors=17.15 selected_stocks=100.41
+epoch=14 train_loss=-0.005926 validation_loss=-0.007612 validation_return=0.007635 IR=0.2996 Sharpe=4.7565 MDD=0.8138 selected_factors=16.79 selected_stocks=100.62
+epoch=15 train_loss=-0.006579 validation_loss=-0.007203 validation_return=0.007219 IR=0.2820 Sharpe=4.4763 MDD=0.8674 selected_factors=18.48 selected_stocks=100.26
+epoch=16 train_loss=-0.006386 validation_loss=-0.007801 validation_return=0.007809 IR=0.3006 Sharpe=4.7712 MDD=0.8903 selected_factors=19.13 selected_stocks=100.22
+epoch=17 train_loss=-0.006445 validation_loss=-0.007584 validation_return=0.007602 IR=0.2954 Sharpe=4.6888 MDD=0.9115 selected_factors=19.15 selected_stocks=100.45
+epoch=18 train_loss=-0.006215 validation_loss=-0.007197 validation_return=0.007213 IR=0.2817 Sharpe=4.4712 MDD=0.9104 selected_factors=18.94 selected_stocks=100.07
+epoch=19 train_loss=-0.006304 validation_loss=-0.007183 validation_return=0.007191 IR=0.2859 Sharpe=4.5379 MDD=0.9090 selected_factors=19.26 selected_stocks=100.12
+epoch=20 train_loss=-0.006196 validation_loss=-0.007098 validation_return=0.007104 IR=0.2843 Sharpe=4.5128 MDD=0.9023 selected_factors=19.29 selected_stocks=100.09
+{"run_id": "theta_0p01", "theta": 0.01, "gamma_p": 0.5, "gamma_p_mode": "inverse_n", "lambda_s": 0.0, "seed": 42, "initial_state_sha256": "5161a1999abd07ec1bb35d0a50740621fe212fa17b6de8e9f99473617ad46e4a", "best_epoch": 0, "best_validation_ir": 0.31114086508750916, "epochs_completed": 21, "stopped_early": true, "oos_evaluated": false}

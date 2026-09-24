@@ -1,0 +1,158 @@
+{
+  "entry": "decision date t targets are executed at adjusted VWAP on the next trading date t+1",
+  "holdings": "positions drift with adjusted VWAP between daily target rebalances",
+  "turnover": "one-way turnover is 0.5 times the L1 change from drifted pre-trade weights",
+  "transaction_cost": "0.0 bps applied to gross turnover",
+  "by_horizon": {
+    "3": {
+      "model": {
+        "annualized_return": -0.18791869840148412,
+        "max_drawdown": 0.28393586902665113,
+        "average_one_way_turnover": 0.19893120194338704,
+        "total_one_way_turnover": 48.14135087029966,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.001960121817185856,
+        "max_active_drawdown": 0.13241291092659635
+      },
+      "factor_equal_weight": {
+        "annualized_return": -0.10613368498942699,
+        "max_drawdown": 0.25828226158912293,
+        "average_one_way_turnover": 0.03536327772434341,
+        "total_one_way_turnover": 8.557913209291105,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.1028679026512751,
+        "max_active_drawdown": 0.011718866014589824
+      },
+      "benchmark": {
+        "annualized_return": -0.18950736270251933,
+        "max_drawdown": 0.2757845646135928,
+        "average_one_way_turnover": 0.012853278182617344,
+        "total_one_way_turnover": 3.110493320193397,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242
+      }
+    },
+    "5": {
+      "model": {
+        "annualized_return": -0.24380811102629318,
+        "max_drawdown": 0.3275920890687658,
+        "average_one_way_turnover": 0.19372600837263362,
+        "total_one_way_turnover": 46.881694026177335,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": -0.06699721357720789,
+        "max_active_drawdown": 0.26881814169642915
+      },
+      "factor_equal_weight": {
+        "annualized_return": -0.10613368498942699,
+        "max_drawdown": 0.25828226158912293,
+        "average_one_way_turnover": 0.03536327772434341,
+        "total_one_way_turnover": 8.557913209291105,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.1028679026512751,
+        "max_active_drawdown": 0.011718866014589824
+      },
+      "benchmark": {
+        "annualized_return": -0.18950736270251933,
+        "max_drawdown": 0.2757845646135928,
+        "average_one_way_turnover": 0.012853278182617344,
+        "total_one_way_turnover": 3.110493320193397,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242
+      }
+    },
+    "10": {
+      "model": {
+        "annualized_return": -0.20107763147053592,
+        "max_drawdown": 0.2999602374772553,
+        "average_one_way_turnover": 0.24379588050945097,
+        "total_one_way_turnover": 58.998603083287136,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": -0.014275600092552021,
+        "max_active_drawdown": 0.14600623316835526
+      },
+      "factor_equal_weight": {
+        "annualized_return": -0.10613368498942699,
+        "max_drawdown": 0.25828226158912293,
+        "average_one_way_turnover": 0.03536327772434341,
+        "total_one_way_turnover": 8.557913209291105,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.1028679026512751,
+        "max_active_drawdown": 0.011718866014589824
+      },
+      "benchmark": {
+        "annualized_return": -0.18950736270251933,
+        "max_drawdown": 0.2757845646135928,
+        "average_one_way_turnover": 0.012853278182617344,
+        "total_one_way_turnover": 3.110493320193397,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242
+      }
+    },
+    "15": {
+      "model": {
+        "annualized_return": -0.21440250474821354,
+        "max_drawdown": 0.30808385792779613,
+        "average_one_way_turnover": 0.2386515390190343,
+        "total_one_way_turnover": 57.7536724426063,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": -0.030716061935744277,
+        "max_active_drawdown": 0.15607778020768637
+      },
+      "factor_equal_weight": {
+        "annualized_return": -0.10613368498942699,
+        "max_drawdown": 0.25828226158912293,
+        "average_one_way_turnover": 0.03536327772434341,
+        "total_one_way_turnover": 8.557913209291105,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.1028679026512751,
+        "max_active_drawdown": 0.011718866014589824
+      },
+      "benchmark": {
+        "annualized_return": -0.18950736270251933,
+        "max_drawdown": 0.2757845646135928,
+        "average_one_way_turnover": 0.012853278182617344,
+        "total_one_way_turnover": 3.110493320193397,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242
+      }
+    },
+    "20": {
+      "model": {
+        "annualized_return": -0.174399601383473,
+        "max_drawdown": 0.29908274029410453,
+        "average_one_way_turnover": 0.2521367663011101,
+        "total_one_way_turnover": 61.01709744486864,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.01864022031023249,
+        "max_active_drawdown": 0.14082307842168462
+      },
+      "factor_equal_weight": {
+        "annualized_return": -0.10613368498942699,
+        "max_drawdown": 0.25828226158912293,
+        "average_one_way_turnover": 0.03536327772434341,
+        "total_one_way_turnover": 8.557913209291105,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242,
+        "annualized_excess_return": 0.1028679026512751,
+        "max_active_drawdown": 0.011718866014589824
+      },
+      "benchmark": {
+        "annualized_return": -0.18950736270251933,
+        "max_drawdown": 0.2757845646135928,
+        "average_one_way_turnover": 0.012853278182617344,
+        "total_one_way_turnover": 3.110493320193397,
+        "total_transaction_cost": 0.0,
+        "number_of_days": 242
+      }
+    }
+  }
+}
